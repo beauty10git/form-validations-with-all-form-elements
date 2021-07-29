@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>Example Form</h2>  
+  <form action="/action_page.php" class="needs-validation" id = "form1" novalidate enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="uname">Username:</label>
+      <input type="text" class="form-control" id="uname" placeholder="Enter username" name="uname" required>
+      <!--<div class="valid-feedback">Valid.</div>-->
+      <div class="invalid-feedback">Please fill out this field.</div>
+    </div>    
+	<div class="form-group">
+		<label for="utype" class="form-label">User Type</label>
+		<select class="form-select form-control" id="utype" required aria-label="select example" name="utype">
+		  <option value="">Select</option>
+		  <option value="1">One</option>
+		  <option value="2">Two</option>
+		  <option value="3">Three</option>
+		</select>    
+		<!--<div class="valid-feedback">Valid.</div>-->
+		<div class="invalid-feedback">Please select this field.</div>
+	</div>
+	<!--<div class="form-group">
+		<label for="ufile" class="form-label">User Photo</label>
+		<input type="file" class="form-control" id="ufile" aria-label="file example" name="file" required>
+		<div class="invalid-feedback">Example invalid form file feedback</div>
+	</div>-->
+	<div class="form-group form-check">
+		<input type="radio" class="form-check-input" id="male" name="gender" value = "male" required >
+		<label class="form-check-label" for="male">Male</label>
+		<br>
+		<input type="radio" class="form-check-input" id="female" name="gender" value = "female" required>
+		<label class="form-check-label" for="female">Female</label>
+	</div>
+  
+    <div class="form-group">
+		<label for="umessage" class="form-label">User Message</label>
+		<textarea class="form-control" id="umessage" name="umessage" required></textarea>
+		<div class="invalid-feedback">
+		  Please enter a message in the textarea.
+		</div>
+	</div>
+	  
+    <div class="form-check form-group">
+		<input type="checkbox" class="form-check-input" id="ucheck" name = "ucheck"  value="on" required>
+		
+		<label class="form-check-label" for="ucheck">Check this checkbox</label>		
+	</div>
+    <!--<button type="submit" class="btn btn-primary" id = "form_submit">Submit</button>-->
+	<button type="submit" class="btn btn-primary" id = "get_form_data">Get Form Data</button>
+	<button type="button" class="btn btn-primary" id = "set_form_data">Set Form Data</button>
+	<button type="reset" class="btn btn-primary" id = "reset_form_button">Reset Form Data</button>	
+    <button type="submit" class="btn btn-primary" id = "validate_form">Validate Form</button>
+    <button type="button" class="btn btn-primary" id = "clear_validations">Clear validations</button>   
+    <button type="button" class="btn btn-primary" id = "disable_buttons">Disable Buttons</button>
+	<button type="button" class="btn btn-primary" id = "enable_buttons">Enable Buttons</button>	
+  </form>
+  <br><br>
+  <p><b>Form data:</b> <span id="results"></span></p>
+</div>
+</body>
+</html>
+
+<script>
+// call 
+var get_form_data = document.getElementById('get_form_data');
+get_form_data.onclick = function() {
+	const instance = new Something();	
+	//alert(document.getElementById("ufile").value); //=> hello world
+	$( "#results" ).text( instance.getData('form1') );
+	return false;
+}
+
+var set_form_data = document.getElementById('set_form_data');
+set_form_data.onclick = function() {
+	const instance = new Something();		
+	instance.setData();
+}
+
+
+var clear_validations = document.getElementById('clear_validations');
+clear_validations.onclick = function() {
+	
+	$('#form1').removeClass('was-validated');
+	
+}
+
+var disable_buttons = document.getElementById('disable_buttons');
+disable_buttons.onclick = function() {
+	disableButtons();
+}
+
+var enable_buttons = document.getElementById('enable_buttons');
+enable_buttons.onclick = function() {
+	enableButtons();
+}
+
+function disableButtons() {
+   document.getElementById("get_form_data").disabled = true;
+   document.getElementById("set_form_data").disabled = true;
+   document.getElementById("reset_form_button").disabled = true;
+   document.getElementById("validate_form").disabled = true;
+   document.getElementById("clear_validations").disabled = true;
+   document.getElementById("disable_buttons").disabled = true;
+}
+
+function enableButtons() {
+	<!-- var buttons = document.getElementsByClassName('btn'); -->
+	<!-- for(var i = 0; i < buttons.length; i++) { -->
+		<!-- buttons[i].disabled = false;		 -->
+	<!-- }	 -->
+   document.getElementById("get_form_data").disabled = false;
+   document.getElementById("set_form_data").disabled = false;
+   document.getElementById("reset_form_button").disabled = false;
+   document.getElementById("validate_form").disabled = false;
+   document.getElementById("clear_validations").disabled = false;
+   document.getElementById("disable_buttons").disabled = false;
+}
+
+
+class Something {
+  #property;
+
+  constructor(){
+    this.#property = "test";
+  }
+
+  getData(selector) {
+    //return 'hello world';
+	var formdata = $("#"+selector).serialize();
+	return formdata;
+  }
+  
+  setData()
+  {
+	 var uname = document.getElementById("uname");
+	 var utype = document.getElementById("utype");	 
+	 var ufile = document.getElementById("ufile");	 
+	 var umessage = document.getElementById("umessage");	 
+	 
+	 uname.value = "textValue";
+	 utype.value = "2";
+	 //ufile.value = "c:/passwords.txt";
+	 umessage.value = "sample message";
+	 //document.getElementById('male').checked;
+	 document.getElementById("male").checked = true;
+	 document.getElementById("ucheck").checked = true;
+  }     
+
+  validate(selector) {
+		alert(selector);
+		
+      // Disable form submissions if there are invalid fields
+		//(function() {
+		  'use strict';
+		  window.addEventListener('load', function() {
+			// Get the forms we want to add validation styles to
+			var forms = document.getElementsByClassName('needs-validation');
+			// Loop over them and prevent submission
+			var validation = Array.prototype.filter.call(forms, function(form) {
+			  form.addEventListener('submit', function(event) {
+				if (form.checkValidity() === false) {
+				  event.preventDefault();
+				  event.stopPropagation();
+				}
+				form.classList.add('was-validated');
+			  }, false);
+			});
+		  }, false);
+		
+  }  
+}
+
+/*
+ * myClass
+ */
+var myClass = function(options){
+ 
+    /*
+     * Variables accessible
+     * in the class
+     */	
+    var vars = {
+        myVar  : 'original Value'
+    };	
+ 
+    /*
+     * Can access this.method
+     * inside other methods using
+     * root.method()
+     */
+    var root = this;
+ 
+    /*
+     * Constructor
+     */
+    this.construct = function(options){
+        $.extend(vars , options);
+    };
+ 
+    /*
+     * Public method
+     * Can be called outside class
+     */
+    this.myPublicMethod = function(){
+        console.log(vars.myVar);        
+		validate();
+    };	
+	
+    /*
+     * Form validate method
+     * Can only be called inside class
+     */
+	
+    var validate = function() {
+        console.log('accessed private method');
+		// Disable form submissions if there are invalid fields
+		//(function() {
+		  'use strict';
+		  window.addEventListener('load', function() {
+			// Get the forms we want to add validation styles to
+			var forms = document.getElementsByClassName('needs-validation');
+			// Loop over them and prevent submission
+			var validation = Array.prototype.filter.call(forms, function(form) {
+			  form.addEventListener('submit', function(event) {
+				if (form.checkValidity() === false) {
+				  event.preventDefault();
+				  event.stopPropagation();
+				}
+				form.classList.add('was-validated');
+			  }, false);
+			});
+		  }, false);
+		//})();
+    }; 
+ 
+    /*
+     * Pass options when class instantiated
+     */
+    this.construct(options);
+ 
+};
+ 
+/*
+* USAGE
+*/
+ 
+/*
+ * Set variable myVar to new value
+*/
+var newMyClass = new myClass({ myVar : 'new Value' });
+ 
+/*
+ * Call myMethod inside myClass
+*/
+newMyClass.myPublicMethod();
+</script>
